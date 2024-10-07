@@ -1,0 +1,78 @@
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <app-topbar></app-topbar>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+              <h2 class="m-0 font-weight-bold text-primary"> Add Category</h2>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="mb-3">
+                <label for="categoryName" class="form-label">Category Name</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="categoryName"
+                    [(ngModel)]="name"
+                    required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="categoryDescription" class="form-label">Description</label>
+                <div class="input-group">
+                  <textarea
+                    class="form-control"
+                    rows="7"
+                    id="categoryDescription"
+                    [(ngModel)]="description"
+                    required></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-md-12">
+                <button class="btn btn-success" (click)="onCreate()" [disabled]="isLoading">
+                  <span *ngIf="isLoading">Creating...</span>
+                  <span *ngIf="!isLoading">Create</span>
+
+                </button>
+                <a href="/admin/category" class="btn btn-secondary ml-2">Back</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <app-footer></app-footer>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<app-logout></app-logout>

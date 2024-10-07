@@ -1,0 +1,135 @@
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <app-topbar (searchQueryChange)="onSearchChange($event)"></app-topbar>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+
+        <div class="card shadow mb-4">
+
+          <div class="card-header py-3">
+            <h2 class="m-0 font-weight-bold text-primary"> Users</h2>
+          </div>
+          <div class="card-body">
+
+            <!-- Search and Pagination Controls -->
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <a class="btn btn-primary" href="/admin/user-create">Thêm mới</a>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" (change)="onPageSizeChange($event)">
+                  <option *ngFor="let sizeOption of pageSizes" [value]="sizeOption">{{ sizeOption }}</option>
+                </select>
+              </div>
+            </div>
+
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Avatar</th>
+                  <th>User Name</th>
+                  <th>PhoneNumber</th>
+
+                  <th>Birthday</th>
+                  <th>Email</th>
+
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of list; let i = index">
+                  <td>{{ (index - 1) * size + i + 1 }}</td>
+                  <td>
+                    <img [src]="user.avatar || 'assets/placeholder.png'" alt="{{ user.name }}" class="img-thumbnail" style="width: 70px; height: 70px;">
+                  </td>
+                  <td>{{user.name}}</td>
+                  <td>{{user.phoneNumber}}</td>
+                  <td>{{user.dob}}</td>
+
+                  <td>{{ user.email }}</td>
+                  <td>
+                    <a href="/admin/user-update/{{ user.id }}" class="btn btn-warning">Edit</a>
+                  </td>
+                  <td>
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+
+            <!-- Pagination Controls -->
+            <div class="col-md-4 text-right">
+              <nav aria-label="Page navigation">
+                <ul class="pagination">
+                  <!-- Previous Button -->
+                  <li class="page-item" [class.disabled]="index === 1">
+                    <a class="page-link" (click)="onPageChange(index - 1)">Previous</a>
+                  </li>
+                  <!-- Page Numbers -->
+                  <li *ngFor="let page of getPages()" class="page-item" [class.active]="index === page">
+                    <a class="page-link" *ngIf="page !== -1" (click)="onPageChange(page)">{{ page }}</a>
+                    <span *ngIf="page === -1" class="page-link">...</span>
+                  </li>
+                  <!-- Next Button -->
+                  <li class="page-item" [class.disabled]="index === totalPages">
+                    <a class="page-link" (click)="onPageChange(index + 1)">Next</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+
+          </div>
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <app-footer></app-footer>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<app-logout></app-logout>

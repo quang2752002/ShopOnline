@@ -1,0 +1,99 @@
+<!-- Page Wrapper -->
+<div id="wrapper">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+      <!-- Topbar -->
+      <app-topbar></app-topbar>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h2 class="m-0 font-weight-bold text-primary">Update Product</h2>
+          </div>
+          <div class="card-body">
+            <!-- Display error message if fetching categories fails -->
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+            <div class="row">
+              <!-- Product Name -->
+              <div class="mb-3">
+                <label for="productName" class="form-label">Product Name</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="productName" [(ngModel)]="name" required />
+                </div>
+              </div>
+
+              <!-- Category -->
+              <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <div class="input-group">
+                  <select class="form-control" [(ngModel)]="selectedCategoryId" (change)="onCategoryChange($event)"
+                    required>
+                    <option *ngFor="let category of categoryList" [value]="category.id">
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+
+              <!-- Price -->
+              <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="price" [(ngModel)]="price" required />
+                </div>
+              </div>
+
+              <!-- Quantity -->
+              <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="quantity" [(ngModel)]="quantity" required />
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <div class="input-group">
+                  <textarea class="form-control" rows="7" id="description" [(ngModel)]="description"
+                    required></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Create Button -->
+            <div class="row text-center">
+              <div class="col-md-12">
+                <button class="btn btn-success" (click)="onUpdate()" [disabled]="isLoading">
+                  <span *ngIf="isLoading">Updating...</span>
+                  <span *ngIf="!isLoading">Update</span>
+                </button>
+                <a href="/admin/product" class="btn btn-secondary ml-2">Back</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <app-footer></app-footer>
+    <!-- End of Footer -->
+  </div>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<app-logout></app-logout>
