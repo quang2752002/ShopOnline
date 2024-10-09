@@ -16,6 +16,12 @@ namespace API.Repository.Implement
             this.context = context;
         }
 
+        public async Task<Cart> CheckCart(string userId, string productId)
+        {
+            var query = await context.Carts.Where(x => x.UserId == userId && x.ProductId == productId).FirstOrDefaultAsync();
+            return query;
+        }
+
         public async Task<(List<CartDTO>, int)> getCart(string userId, int page)
         {
             if (!string.IsNullOrEmpty(userId))

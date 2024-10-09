@@ -27,5 +27,11 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     
   }
+  onSearchChange(query: string): void {
+    this.searchQuery = query;
+    this.index = 1;
+   
+  }
+
 
 }

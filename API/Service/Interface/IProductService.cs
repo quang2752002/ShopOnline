@@ -13,6 +13,7 @@ namespace WebApiWithRoleAuthentication.Service.Interface
         public Task<bool> DeleteAsync(string id);
         public Task<(List<ProductDTO>, int)> GetBestSale(string name, int page, int size);
         public Task<(List<ProductDTO>, int)> GetList(string name, string categoryId, string sorting, int page, int size);
+        public Task<Product> CheckQuantityProduct(string Id, int quantity);
 
     }
 }

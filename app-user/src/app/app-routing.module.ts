@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './user/home/home.component'; 
+import { ProductListComponent } from './user/product-list/product-list.component';
 const routes: Routes = [
   // { path: 'admin/category', component: CategoryListComponent },
   // { path: 'admin/category-create', component: CategoryCreateComponent },
@@ -13,11 +14,12 @@ const routes: Routes = [
 
   // { path: 'admin/order', component:OrderListComponent },
   // {path:'admin/user',component:UserListComponent},
+   // {path :'' ,component:HomeComponent},
+    {path:'danh-sach-san-pham',component:ProductListComponent}
 
 
 
-
-  { path: '', component: HomeComponent },
+ // { path: '', component: HomeComponent },
 
 ];
 

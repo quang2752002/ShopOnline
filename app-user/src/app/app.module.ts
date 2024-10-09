@@ -11,12 +11,14 @@ import { ProductListComponent } from './user/product-list/product-list.component
 import { CartComponent } from './user/cart/cart.component';
 import { HomeComponent } from './user/home/home.component';
 import { CookieService } from 'ngx-cookie-service';
+import { BannerAreaComponent } from './layout/banner-area/banner-area.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     CartComponent,
+    BannerAreaComponent,
 
 
   ],

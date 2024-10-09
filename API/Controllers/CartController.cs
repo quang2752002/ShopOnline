@@ -22,8 +22,8 @@ namespace API.Controllers
         }
 
         [HttpGet("GetCart")]
-        [Authorize]
-        public async Task<IActionResult> GetCart([FromQuery] int page=1)
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> GetCart([FromQuery] int page = 1)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace API.Controllers
                     return Unauthorized();
                 }
 
-                (List<CartDTO> carts,int total) = await _cartService.getCart(userId,page);
+                (List<CartDTO> carts, int total) = await _cartService.getCart(userId, page);
 
                 return Ok(new
                 {
@@ -48,6 +48,29 @@ namespace API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [HttpPost("AddOrUpdate")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> AddOrUpdateCart(string productId, int quantity)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.Sid)?.Value;
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized();
+                }
+                var query = await _cartService.AddOrUpdateCart(userId, productId, quantity);
+                if (!query)
+                    return BadRequest();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
     }

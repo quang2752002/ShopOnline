@@ -99,5 +99,13 @@ namespace WebApiWithRoleAuthentication.Service.Implement
             return query;
 
         }
+
+        public async Task<Product> CheckQuantityProduct(string id, int quantity)
+        {
+            var query = await baseRepository.GetAllAsync();
+            var product = query.Where(x => x.Id == id && x.Quantity > quantity).FirstOrDefault();
+            return product;
+        }
+
     }
 }
