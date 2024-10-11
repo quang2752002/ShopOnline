@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
   searchQuery: string = ""; // Search query
+  isSearchVisible: boolean = false; // Controls search input visibility
 
   @Output() searchQueryChange: EventEmitter<string> = new EventEmitter<string>();
 
@@ -19,4 +20,7 @@ export class HeaderComponent {
     this.searchQueryChange.emit(query);
   }
 
+  toggleSearch(): void {
+    this.isSearchVisible = !this.isSearchVisible; // Toggle search input visibility
+  }
 }

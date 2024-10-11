@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './user/home/home.component'; 
 import { ProductListComponent } from './user/product-list/product-list.component';
+import { LoginComponent } from './user/login/login.component';
+import { CartComponent } from './user/cart/cart.component';
+import { CheckoutComponent } from './user/checkout/checkout.component';
+
 const routes: Routes = [
   // { path: 'admin/category', component: CategoryListComponent },
   // { path: 'admin/category-create', component: CategoryCreateComponent },
@@ -15,11 +19,14 @@ const routes: Routes = [
   // { path: 'admin/order', component:OrderListComponent },
   // {path:'admin/user',component:UserListComponent},
    // {path :'' ,component:HomeComponent},
-    {path:'danh-sach-san-pham',component:ProductListComponent}
+    { path:'danh-sach-san-pham',component : ProductListComponent},
 
+ 
+    { path:"login", component : LoginComponent},
+    { path:"cart" , component : CartComponent},
+    { path: 'home', component: HomeComponent },
 
-
- // { path: '', component: HomeComponent },
+    { path: 'checkout', component: CheckoutComponent },
 
 ];
 

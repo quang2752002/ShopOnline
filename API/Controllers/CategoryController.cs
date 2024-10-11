@@ -121,11 +121,11 @@ namespace API.Controllers
             }
         }
         [HttpGet("get-list")]
-        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> getList()
         {
             try
             {
+                
                 var query =await  categoryService.getListAsync();
                 return Ok(query);
             }

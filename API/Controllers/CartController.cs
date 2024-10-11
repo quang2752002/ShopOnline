@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace API.Controllers
@@ -21,47 +22,39 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("GetCart")]
+        [HttpGet("get-cart")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> GetCart([FromQuery] int page = 1)
+        public async Task<IActionResult> GetCart()
         {
             try
             {
-                var userId = User.FindFirst(ClaimTypes.Sid)?.Value;
-
+                var userId = User.FindFirst(JwtRegisteredClaimNames.Sid)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
                     return Unauthorized();
                 }
+                    var carts= await _cartService.getCart(userId);
 
-                (List<CartDTO> carts, int total) = await _cartService.getCart(userId, page);
-
-                return Ok(new
-                {
-                    carts = carts,
-                    total = total,
-                });
-
-
+                return Ok(carts);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("AddOrUpdate")]
+        [HttpPost("add-cart")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> AddOrUpdateCart(string productId, int quantity)
+        public async Task<IActionResult> AddCart([FromBody]CartDTO cartDTO)
         {
             try
             {
-                var userId = User.FindFirst(ClaimTypes.Sid)?.Value;
+                var userId = User.FindFirst(JwtRegisteredClaimNames.Sid)?.Value;
 
                 if (string.IsNullOrEmpty(userId))
                 {
                     return Unauthorized();
                 }
-                var query = await _cartService.AddOrUpdateCart(userId, productId, quantity);
+                var query = await _cartService.AddCart(userId, cartDTO.ProductId, cartDTO.Quantity.Value);
                 if (!query)
                     return BadRequest();
                 return Ok();
@@ -72,6 +65,31 @@ namespace API.Controllers
             }
 
         }
+        [HttpPatch("update-cart")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> UpdateQuantityCart([FromBody] CartDTO cartDTO)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(cartDTO.ProductId)||cartDTO.Quantity==0)
+                {
+                    return BadRequest();
+                }
+                var userId = User.FindFirst(JwtRegisteredClaimNames.Sid)?.Value;
 
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized();
+                }
+                var isChecked=await _cartService.UpdateCart(userId,cartDTO.ProductId, cartDTO.Quantity.Value);
+                if (isChecked)
+                    return Ok();
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

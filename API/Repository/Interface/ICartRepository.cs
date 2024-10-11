@@ -5,7 +5,7 @@ namespace API.Repository.Interface
 {
     public interface ICartRepository
     {
-        public  Task<(List<CartDTO>,int)> getCart(string userId,int page);
+        public  Task<List<CartDTO>> getCart(string userId);
         public Task<Cart> CheckCart(string userId, string productId);
 
     }

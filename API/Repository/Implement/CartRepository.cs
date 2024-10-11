@@ -22,7 +22,7 @@ namespace API.Repository.Implement
             return query;
         }
 
-        public async Task<(List<CartDTO>, int)> getCart(string userId, int page)
+        public async Task<List<CartDTO>> getCart(string userId)
         {
             if (!string.IsNullOrEmpty(userId))
             {
@@ -36,24 +36,25 @@ namespace API.Repository.Implement
 
                 // Apply pagination using Skip and Take
                 var cartItems = await query
-                    .Skip((page - 1) * 10)
-                     .Take(10)
+                    
                     .Select(p => new CartDTO
                     {
                         Id = p.Id,
                         ProductName = p.Product.Name,
                         ProductId = p.ProductId,
+                        ProductQuantity=p.Product.Quantity.Value,
                         Price = p.Product.Price.Value,
                         Quantity = p.Quantity,
                         Description = p.Product.Description,
+
                         Img = p.Product.Imgs.Any() ? p.Product.Imgs.FirstOrDefault().Url : null
                     })
                 .ToListAsync();
 
-                return (cartItems,totalItems);
+                return cartItems;
             }
 
-            return (new List<CartDTO>(), 0);
+            return new List<CartDTO>();
         }
     }
 

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,26 +12,43 @@ import { CartComponent } from './user/cart/cart.component';
 import { HomeComponent } from './user/home/home.component';
 import { CookieService } from 'ngx-cookie-service';
 import { BannerAreaComponent } from './layout/banner-area/banner-area.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CheckoutComponent } from './user/checkout/checkout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent,
-    CartComponent,
-    BannerAreaComponent,
-
+    
+    
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatSnackBarModule,
     HeaderComponent,
     BannerComponent,
     FeaturesComponent,
     FooterComponent,
     HomeComponent,
+    BannerAreaComponent,
+    ProductListComponent,
+    BrowserAnimationsModule,
+    CartComponent,
+    CheckoutComponent,
+
   ],
   providers: [CookieService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   bootstrap: [AppComponent]
 })

@@ -70,6 +70,7 @@ namespace API.Service.Implement
         {
             Order order = new Order();
             order.UserId = userId;
+            
             await baseRepository.AddAsync(order);//them mới đơn hàng
             foreach (var item in orderDTO.Id)
             {
@@ -88,6 +89,7 @@ namespace API.Service.Implement
             }
             return order;
         }
+
 
     }
 }

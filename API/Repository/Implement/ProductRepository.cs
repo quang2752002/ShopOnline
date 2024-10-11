@@ -144,7 +144,9 @@ namespace API.Repository.Implement
                 Name = p.Name,
                 Price = p.Price ?? 0,
                 Quantity = p.Quantity.Value,
-                Img = p.Imgs.FirstOrDefault()?.Url
+                Img = p.Imgs.FirstOrDefault()?.Url,
+                CategoryId=p.CategoryId,
+                Description=p.Description,
             }).ToList();
 
             return (productDTOs, total);

@@ -1,1 +1,86 @@
-<p>cart works!</p>
+<!-- Start Header Area -->
+<app-header></app-header>
+<!-- End Header Area -->
+<app-banner-area></app-banner-area>
+<!-- Start Banner Area -->
+
+<!--================Cart Area =================-->
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of list">
+                            <td>
+                                <input type="checkbox" (change)="updateSelectedItems(item.id, $event)" />
+                            </td>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img [src]="item.img" class="img-thumbnail" style="width: 80px; height: 80px;" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>{{item.productName}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>${{item.price.toFixed(2)}}</h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <button (click)="decreaseQuantity(item)" class="reduced items-count" type="button">
+                                        <i class="lnr lnr-chevron-down"></i>
+                                    </button>
+                                    <input type="text" name="qty" [(ngModel)]="item.quantity" [max]="item.productQuantity" title="Quantity:" class="input-text qty">
+                                    <button (click)="increaseQuantity(item)" class="increase items-count" type="button">
+                                        <i class="lnr lnr-chevron-up"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>${{(item.price * item.quantity).toFixed(2)}}</h5>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5><b>Subtotal</b></h5>
+                            </td>
+                            <td>
+                                <h5>${{calculateSubtotal()}}</h5>
+                            </td>
+                        </tr>
+
+                        <tr class="out_button_area">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" href="/danh-sach-san-pham">Continue Shopping</a>
+                                    <a class="primary-btn" (click)="proceedToCheckout()">Proceed to checkout</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Cart Area =================-->
+
+<app-footer></app-footer>

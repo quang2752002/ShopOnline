@@ -20,7 +20,7 @@ namespace API.Service.Implement
             this.productService = productService;
         }
 
-        public async Task<bool> AddOrUpdateCart(string userId, string productId, int quantity)
+        public async Task<bool> AddCart(string userId, string productId, int quantity)
         {
             if (await cartRepository.CheckCart(userId, productId) == null)
             {
@@ -28,6 +28,7 @@ namespace API.Service.Implement
                 {
                     Cart item = new Cart()
                     {
+                        Id = Guid.NewGuid().ToString(),
                         ProductId = productId,
                         Quantity = quantity,
                         UserId = userId
@@ -53,11 +54,22 @@ namespace API.Service.Implement
             return false;
         }
 
-        public async Task<(List<CartDTO>, int)> getCart(string userId, int page)
+        public async Task<List<CartDTO>> getCart(string userId)
         {
-            var query = await cartRepository.getCart(userId,page);
+            var query = await cartRepository.getCart(userId);
             return query;
         }
 
+        public async Task<bool> UpdateCart(string userId, string productId, int quantity)
+        {
+            Cart cart=await cartRepository.CheckCart(userId,productId);
+            cart.Quantity = quantity;
+            if (await productService.CheckQuantityProduct(productId, cart.Quantity) != null)
+            {
+                await baseRepository.UpdateAsync(cart);
+                return true;
+            }
+            return false;
+        }
     }
 }

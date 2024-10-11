@@ -1,0 +1,8 @@
+.header_area {
+    position: sticky; /* Makes the header sticky */
+    top: 0; /* Sticks to the top of the viewport */
+    z-index: 9999 ; /* Increase z-index to ensure it's above other content */
+    background-color: white; /* Ensures the header has a background */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for better visibility */
+  }
+  

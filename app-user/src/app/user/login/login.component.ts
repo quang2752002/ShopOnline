@@ -1,10 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginService } from 'src/app/service/login/login.service';
 
 @Component({
   selector: 'app-login',
+  standalone:true,
+  imports: [
+    CommonModule,
+    FormsModule,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -24,7 +31,7 @@ export class LoginComponent {
       next: (response) => {
         if (response.token) {
           this.cookieService.set('token', response.token);
-          this.router.navigate(['/']);
+          this.router.navigate(['/danh-sach-san-pham']);
         } else {
           this.errorMessage = 'Invalid login response';
         }
