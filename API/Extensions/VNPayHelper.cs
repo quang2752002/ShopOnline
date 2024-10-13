@@ -53,17 +53,16 @@ namespace DiscApi.Extensions
                     data.Append(WebUtility.UrlEncode(kv.Key) + "=" + WebUtility.UrlEncode(kv.Value) + "&");
                 }
             }
+
             string queryString = data.ToString();
-
-            baseUrl += "?" + queryString;
-            string signData = queryString;
-            if (signData.Length > 0)
+            if (queryString.Length > 0)
             {
-
-                signData = signData.Remove(data.Length - 1, 1);
+                queryString = queryString.Remove(queryString.Length - 1, 1);  // Loại bỏ dấu '&' cuối cùng
             }
+
+            string signData = queryString;
             string vnp_SecureHash = Utils.HmacSHA512(vnp_HashSecret, signData);
-            baseUrl += "vnp_SecureHash=" + vnp_SecureHash;
+            baseUrl += "?" + queryString + "&vnp_SecureHash=" + vnp_SecureHash;
 
             return baseUrl;
         }

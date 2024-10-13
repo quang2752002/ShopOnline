@@ -14,7 +14,7 @@ namespace API.Service.Implement
             _config = config;
         }
 
-        public string GetUrlPayment(int typePayment, Order order)
+        public  string GetUrlPayment(int typePayment, Order order)
         {
             string vnp_Returnurl = _config["VNPAY:ReturnUrl"];
             string vnp_Url = _config["VNPAY:Url"];
@@ -64,7 +64,7 @@ namespace API.Service.Implement
             vnpay.AddRequestData("vnp_Inv_Email", "quang@gmail.com");
             vnpay.AddRequestData("vnp_Inv_Customer", "Quang");
             vnpay.AddRequestData("vnp_Inv_Address", "China");
-            vnpay.AddRequestData("vnp_Inv_Company", "Truong Entertainment");
+            vnpay.AddRequestData("vnp_Inv_Company", "ABC Company");
             vnpay.AddRequestData("vnp_Inv_Taxcode", "123");
             vnpay.AddRequestData("vnp_Inv_Type", "Ok");
 

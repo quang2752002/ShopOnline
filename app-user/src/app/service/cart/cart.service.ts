@@ -2,6 +2,7 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
+  HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -80,4 +81,21 @@ export class CartService {
       .patch<Cart>(`${this.url}/update-cart`, body, { headers }) 
       .pipe(catchError(this.handleError)); 
   }
+  
+  getCartCheckOut(ids: string[]): Observable<any[]> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+    // Create HttpParams with multiple 'id' parameters
+    let params = new HttpParams();
+    ids.forEach(id => {
+      params = params.append('id', id); // append each id as a separate query parameter
+    });
+  
+    return this.http
+      .get<any[]>(`${this.url}/get-cart-checkout`, { headers, params })
+      .pipe(catchError(this.handleError));
+  }
+  
+  
 }

@@ -3,6 +3,7 @@ using API.Models.Entity;
 using API.Repository.Implement;
 using API.Repository.Interface;
 using API.Service.Interface;
+using NuGet.Packaging.Signing;
 using WebApiWithRoleAuthentication.Service.Interface;
 
 namespace API.Service.Implement
@@ -58,6 +59,38 @@ namespace API.Service.Implement
         {
             var query = await cartRepository.getCart(userId);
             return query;
+        }
+
+       
+
+        public async Task<List<CartDTO>> getCartCheckOut(string[] Id)
+        {
+            List<CartDTO> cartDTOs = new List<CartDTO>();
+
+            foreach (var id in Id)
+            {
+                var cart = await baseRepository.GetByIdAsync(id);
+                var product= await productService.GetByIdAsync(cart.ProductId);
+
+                if (cart != null)
+                {
+                    CartDTO cartDTO = new CartDTO
+                    {
+                        Id = cart.Id,
+                        ProductName = product.Name,
+                        ProductId = cart.Id,
+                        Quantity = cart.Quantity,
+                        Price = product.Price,
+                        Description = product.Description,
+                       // Img = cart.Product.Imgs.Any() ? cart.Product.Imgs.FirstOrDefault().Url : null
+
+                    };
+
+                    cartDTOs.Add(cartDTO);
+                }
+            }
+
+            return cartDTOs;
         }
 
         public async Task<bool> UpdateCart(string userId, string productId, int quantity)

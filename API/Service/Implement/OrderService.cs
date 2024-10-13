@@ -66,24 +66,33 @@ namespace API.Service.Implement
         {
             throw new NotImplementedException();
         }
-        public async Task<Order> Order(OrderDTO orderDTO, string userId)
+        public async Task<Order> CheckOut(CheckOutDTO checkOutDTO, string userId)
         {
-            Order order = new Order();
-            order.UserId = userId;
-            
+            Order order = new Order
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserId = userId,
+                Name = checkOutDTO.Name,
+                Address = checkOutDTO.Address,
+                PhoneNumber = checkOutDTO.Phone,
+                Description = checkOutDTO.Note,
+                IsActive = "pending",
+            };
+
             await baseRepository.AddAsync(order);//them mới đơn hàng
-            foreach (var item in orderDTO.Id)
+            foreach (var id in checkOutDTO.Id)
             {
 
-                OrderItem orderItem = new OrderItem();//thêm  mới chi tiết đơn hàng
-                var query = await cartBaseRepository.GetByIdAsync(item.ToString());
+                OrderItem orderItem = new OrderItem();
+                Cart cart = await cartBaseRepository.GetByIdAsync(id);
+                orderItem.Id = Guid.NewGuid().ToString();
                 orderItem.OrderId = order.Id;
-                orderItem.Quantity = query.Quantity;
-                orderItem.ProductId = query.ProductId;
+                orderItem.Quantity = cart.Quantity;
+                orderItem.ProductId = cart.ProductId;
 
-                var product = await productBaseRepository.GetByIdAsync(query.ProductId);
-                product.Quantity = product.Quantity - query.Quantity;
-                await cartBaseRepository.DeleteAsync(item.ToString());   //xóa giỏ hàng
+                var product = await productBaseRepository.GetByIdAsync(cart.ProductId);
+                product.Quantity = product.Quantity - cart.Quantity;// trừ số lượng
+                await cartBaseRepository.DeleteAsync(id.ToString());   //xóa giỏ hàng
                 await orderItemBaseRepository.AddAsync(orderItem);//thêm vào chi tiết đơn hàng
 
             }

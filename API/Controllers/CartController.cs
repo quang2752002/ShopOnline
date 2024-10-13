@@ -33,7 +33,7 @@ namespace API.Controllers
                 {
                     return Unauthorized();
                 }
-                    var carts= await _cartService.getCart(userId);
+                var carts = await _cartService.getCart(userId);
 
                 return Ok(carts);
             }
@@ -44,7 +44,7 @@ namespace API.Controllers
         }
         [HttpPost("add-cart")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> AddCart([FromBody]CartDTO cartDTO)
+        public async Task<IActionResult> AddCart([FromBody] CartDTO cartDTO)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace API.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(cartDTO.ProductId)||cartDTO.Quantity==0)
+                if (string.IsNullOrEmpty(cartDTO.ProductId) || cartDTO.Quantity == 0)
                 {
                     return BadRequest();
                 }
@@ -81,7 +81,7 @@ namespace API.Controllers
                 {
                     return Unauthorized();
                 }
-                var isChecked=await _cartService.UpdateCart(userId,cartDTO.ProductId, cartDTO.Quantity.Value);
+                var isChecked = await _cartService.UpdateCart(userId, cartDTO.ProductId, cartDTO.Quantity.Value);
                 if (isChecked)
                     return Ok();
                 return BadRequest();
@@ -91,5 +91,27 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("get-cart-checkout")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> GetCartCheckOut([FromQuery] string[] id)
+        {
+            try
+            {
+                var userId = User.FindFirst(JwtRegisteredClaimNames.Sid)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized();
+                }
+
+                var carts = await _cartService.getCartCheckOut(id);
+
+                return Ok(carts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

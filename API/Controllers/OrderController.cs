@@ -1,8 +1,11 @@
 ﻿using API.Models.DTO;
+using API.Models.Entity;
 using API.Service.Implement;
 using API.Service.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,10 +16,12 @@ namespace API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService orderService;
+        private readonly IVNPayService vnPayService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IVNPayService vnPayService)
         {
             this.orderService = orderService;
+            this.vnPayService = vnPayService;
         }
 
         [HttpGet("get-order")]
@@ -92,7 +97,36 @@ namespace API.Controllers
                 return BadRequest($"An error occurred: {ex.Message}");
             }
         }
-        
+        [HttpPost("check-out")]
+        [Authorize(Roles ="User")]
+        public async Task<IActionResult> CheckOut([FromBody] CheckOutDTO checkOutDTO)
+        {
+            try
+            {
+                if (checkOutDTO == null)
+                {
+                    return BadRequest("Invalid checkout data.");
+                }
+                var userId = User.FindFirst(JwtRegisteredClaimNames.Sid)?.Value;
+                
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized();
+                }
+                var order = await orderService.CheckOut(checkOutDTO, userId);
+                var urlPayment = vnPayService.GetUrlPayment(1, order);
+                if (urlPayment == null)
+                    return BadRequest();
+                return Ok(urlPayment);
+
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

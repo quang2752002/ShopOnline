@@ -20,6 +20,7 @@ namespace DiscApi.Extension
             services.AddScoped<IOrderItemService, OrderItemService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<IVNPayService, VNPayService>();
 
 
 

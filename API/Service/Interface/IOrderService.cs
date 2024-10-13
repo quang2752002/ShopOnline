@@ -10,6 +10,6 @@ namespace API.Service.Interface
         public Task<bool> ChangeIsActive(string id,string isActive);
         public Task<bool> AddAsync(OrderDTO entity);
         public Task<bool> UpdateAsync(OrderDTO entity);
-        public  Task<Order> Order(OrderDTO orderDTO, string userId);
+        public  Task<Order> CheckOut(CheckOutDTO checkOutDTO, string userId);
     }
 }
